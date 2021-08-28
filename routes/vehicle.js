@@ -46,6 +46,18 @@ router.post('/vehicle/insert', function(req,res){
      }  
 })
 
+router.get('/vehicle/fetchByType/:vehicletype',function(req,res){
+     vehicletype = req.params.vehicletype
+          Vehicle.find({vehicletype:vehicletype})
+          .then(function(vehicleData){
+    
+               res.status(200).json({success:true,data:vehicleData})
+
+          })
+          .catch(function(err){
+               res.status(500).json({errorMessage: err})
+          })
+})
 
 
 module.exports = router
