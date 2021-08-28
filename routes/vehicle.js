@@ -12,39 +12,30 @@ const upload = require('../middleware/upload');
 
 //Register Route for Vehicle
 
-router.post('/vehicle/insert', function (req, res) {
-
-     const errors = validationResult(req)
-
-     if (errors.isEmpty()) {
-          //console.log(req.body)
-          const vehicletype = req.body.vehicletype
-          const vehiclecompany = req.body.vehiclecompany
-          const vehiclemodel = req.body.vehiclemodel
-          const vehiclenumber = req.body.vehiclenumber
-          const vehicleprice = req.body.vehicleprice
-          const vehicleownercontact = req.body.vehicleownercontact
-          const vehicleownerid = req.body.vehicleownerid
-
-          const vehicleInsert = new Vehicle({ vehicletype: vehicletype, vehiclecompany: vehiclecompany, vehiclemodel: vehiclemodel, vehiclenumber: vehiclenumber, vehicleprice: vehicleprice, vehicleownercontact: vehicleownercontact, vehicleownerid: vehicleownerid })
-          vehicleInsert.save()
-               .then(function (result) {
-                    //success
-                    //console.log('vehicle added')
-                    res.status(201).json({ success: true, data: result });
-
-               })
-               .catch(function (error) {
-                    console.log('vehicle add error', error.message)
-                    res.status(500).json({ errorMessage: error });
-               })
-
-
-     }
-     else {
-          res.status(400).json(errors.array())
-     }
-})
+router.post('/vehicle/add',upload.single('vehicleimage'), function(req,res){
+     //  console.log(req.file.path)
+       if(req.file == undefined){
+           return res.status(400).json({message : "Invalid file format"});
+       }
+       const vehicletype = req.body.vehicletype
+       const vehiclecompany = req.body.vehiclecompany
+       const vehiclemodel = req.body.vehiclemodel
+       const vehiclenumber = req.body.vehiclenumber
+       const vehicleprice = req.body.vehicleprice
+       const vehicleownercontact = req.body.vehicleownercontact
+       const vehicleownerid = req.body.vehicleownerid
+       const vehicleimage = req.file.filename
+      
+       const vehicleadd = new Vehicle({vehicletype:vehicletype,vehiclecompany:vehiclecompany,vehiclemodel:vehiclemodel,vehiclenumber:vehiclenumber,vehicleprice:vehicleprice,vehicleownercontact:vehicleownercontact,vehicleownerid:vehicleownerid,vehicleimage:vehicleimage})
+        vehicleadd.save()
+        .then(function(result){
+            res.status(201).json({message : "Vehicle Added!!!!"})
+        })
+        .catch(function(e){
+            res.status(500).json({error : e, message: "Vehicle not Added!!!"})
+        })
+      
+     })
 
 router.get('/vehicle/fetchByType/:vehicletype', function (req, res) {
      vehicletype = req.params.vehicletype
@@ -58,20 +49,6 @@ router.get('/vehicle/fetchByType/:vehicletype', function (req, res) {
                res.status(500).json({ errorMessage: err })
           })
 })
-
-router.put("/vehicle/:id", upload.single('vehicleimage'), async function (req, res) {
-     //console.log("image",req.file)
-     if (req.file !== undefined) {
-          try {
-               const image = await Vehicle.findOneAndUpdate({ _id: req.params.id }, { $set: { vehicleimage: req.file.filename } }, { new: true })
-               res.status(200).json({ success: true, data: image })
-          }
-          catch (e) {
-               res.status(500).json({ error: e })
-          }
-     }
-})
-
 
 router.get('/vehicle/fetch/:id', function (req, res) {
 
