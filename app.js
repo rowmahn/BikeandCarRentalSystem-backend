@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const customerRoute = require('./routes/customer');
+const vehicleRoute = require('./routes/vehicle');
 
 
 require('./db/db')
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json())
 
 app.use(customerRoute)
+app.use(vehicleRoute)
 
 
 
