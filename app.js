@@ -23,4 +23,6 @@ app.use(vehicleRoute)
 
 
 
-app.listen(90);
+app.listen(90,function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
