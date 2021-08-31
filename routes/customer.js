@@ -101,4 +101,24 @@ router.post('/customer/login', function(req,res){
      .catch()
 })
 
+
+
+//Customer fetch
+router.get('/customer/profile',customerAuthentication.verifyMain, function(req,res){
+     customerData= req.customer
+
+   Customer.findOne({id:req.customer._id})
+   
+     .then(function(){
+     
+          
+          res.status(200).json({success:true,customerData})
+         // console.log(customerData)
+     })
+     .catch(function(err){
+          res.status(500).json({errorMessage: err})
+     })
+})
+
+
 module.exports=router
