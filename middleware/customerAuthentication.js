@@ -56,16 +56,6 @@ module.exports.verifyRenter = function(req,res,next){
     next();
 }
 
-module.exports.verifyStaff = function(req,res,next){
-
-    if(!req.customer){
-        return res.status(401).json({message : "not allowed!!!"})
-    }
-    else if (req.customer.customertype!== 'Staff' || req.customer.customertype!== 'Admin'){
-        return res.status(401).json({message : "permission denied!!!"})
-    }
-    next();
-}
 
 
 
