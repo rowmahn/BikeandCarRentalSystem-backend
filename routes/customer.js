@@ -121,4 +121,20 @@ router.get('/customer/profile',customerAuthentication.verifyMain, function(req,r
 })
 
 
+router.put('/customer/profileimage',upload.single('profileimage'),customerAuthentication.verifyMain, function(req,res){
+     
+     
+     const profileimage = req.file.path
+
+     Customer.updateOne({_id : req.customer._id},{profileimage:profileimage})
+     .then(function(result){
+           res.status(200).json({success: true,successMessage: "Profile Picture Changed!!!", result})
+     })
+     .catch(function(err){
+          res.status(500).json({errorMessage: err})
+     })
+
+})
+
+
 module.exports=router
