@@ -140,6 +140,15 @@ router.delete('/vehicle/delete/:vehicleid',function(req,res){
      })
 })
 
+router.get('/vehicle/fetch1',authCustomer.verifyMain, function(req,res){
+     //console.log(req.customer._id)
+     Vehicle.find({vehicleownerid:req.customer._id})
+     
+     .then(function(vehicleData){
+          res.status(200).json({success:true,count: vehicleData.length,data:vehicleData})
+     })
+})
+
 
 
 
