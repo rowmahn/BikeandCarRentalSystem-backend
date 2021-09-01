@@ -125,6 +125,21 @@ router.put('/vehicle/rented/:id', function (req, res) {
 
 })
 
+//vehicle delete
+
+router.delete('/vehicle/delete/:vehicleid',function(req,res){
+     const vehicleid = req.params.vehicleid
+     
+     Vehicle.deleteOne({_id : vehicleid})
+     .then(function(result){
+          res.status(200).json({success: true,data:result,message: "Vehicle Deleted Successfully"})
+          //console.log("hittedd")
+     })
+     .catch(function(err){
+          res.status(500).json({errorMessage: err})
+     })
+})
+
 
 
 
