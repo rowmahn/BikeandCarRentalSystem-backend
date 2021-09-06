@@ -4,7 +4,7 @@ const cors = require('cors')
 const path = require('path')
 const customerRoute = require('./routes/customer');
 const vehicleRoute = require('./routes/vehicle');
-
+const rentvehicleRoute = require('./models/rentvehicle')
 
 require('./db/db')
 
@@ -20,6 +20,7 @@ app.use(express.json())
 
 app.use(customerRoute)
 app.use(vehicleRoute)
+app.use(rentvehicleRoute)
 
 
 
