@@ -136,6 +136,19 @@ router.get('/vehicle/fetch1',authCustomer.verifyMain, function(req,res){
      })
 })
 
+router.put('/vehicle/rented/:id', function(req,res){
+     console.log(req.body)
+
+          Vehicle.findByIdAndUpdate({_id:vehicleid},{rented:true})
+          .then(function(result){
+                res.status(200).json({success:true,successMessage: "Rented Successfully!!!", data: result})
+                //console.log("route hitted")
+          })
+          .catch(function(err){
+               res.status(500).json({errorMessage: err})
+          })
+     
+     })
 
 
 
